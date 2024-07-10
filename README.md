@@ -2,7 +2,7 @@
 
 I've always wanted to learn how to use a game engine, and Godot is free to use! So I started using it, thinking that it would be an easy learn! _how foolish._
 
-My second Godot project, I devoted myself to learning animation and collision. Once again, it was suprisingly harder than I thought. However, I learned _two_ different ways to animate as well as how collision works for different nodes. 
+This is my second Godot project, where I devoted myself to learning animation and collision. Once again, it was suprisingly harder than I thought. However, I learned _two_ different ways to animate as well as how collision works for different nodes. 
 
 [Explanation and Demostration of Godot Projects](()
 
