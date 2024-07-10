@@ -1,0 +1,79 @@
+[gd_scene load_steps=13 format=3 uid="uid://bihfbgighq7qe"]
+
+[ext_resource type="Script" path="res://homeScreen.gd" id="1_1xu2f"]
+[ext_resource type="Script" path="res://Runner.gd" id="2_5w8e2"]
+[ext_resource type="Texture2D" uid="uid://cte3dfahiuvbb" path="res://Images/Runner3.png" id="3_3phuw"]
+[ext_resource type="Texture2D" uid="uid://b1ir7r6kiw08r" path="res://Images/Runner.png" id="3_w3c06"]
+[ext_resource type="Texture2D" uid="uid://btkvupou16tmg" path="res://Images/Runner2.png" id="4_11ucd"]
+[ext_resource type="Texture2D" uid="uid://dhh6518516it0" path="res://Images/Runner4.png" id="5_6bmeu"]
+[ext_resource type="Script" path="res://Chaser.gd" id="7_urv4v"]
+[ext_resource type="Texture2D" uid="uid://wyxf4fjp8qoj" path="res://Images/Chaser3.png" id="7_uyudi"]
+[ext_resource type="Texture2D" uid="uid://donkuu1jfd31u" path="res://Images/Chaser2.png" id="8_jlr1s"]
+[ext_resource type="Texture2D" uid="uid://l25kd8x0ac45" path="res://Images/Chaser.png" id="9_onvpx"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_71lfr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_w3c06")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_3phuw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_11ucd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_6bmeu")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_af472"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_uyudi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_jlr1s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_onvpx")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_1xu2f")
+
+[node name="Runner" type="Area2D" parent="."]
+position = Vector2(1105, 633)
+script = ExtResource("2_5w8e2")
+metadata/_edit_group_ = true
+
+[node name="RunnerSprite" type="AnimatedSprite2D" parent="Runner"]
+sprite_frames = SubResource("SpriteFrames_71lfr")
+
+[node name="RunnerCollide" type="CollisionPolygon2D" parent="Runner"]
+polygon = PackedVector2Array(-26, -28, -25, 16, -22, 16, -22, 23, -5, 23, -5, 14, 4, 14, 4, 24, 21, 24, 21, 14, 25, 14, 25, -29)
+
+[node name="Timer" type="Timer" parent="Runner"]
+wait_time = 5.0
+
+[node name="Chaser" type="CharacterBody2D" parent="."]
+script = ExtResource("7_urv4v")
+
+[node name="ChaserSprite" type="AnimatedSprite2D" parent="Chaser"]
+position = Vector2(113, 102)
+sprite_frames = SubResource("SpriteFrames_af472")
+
+[node name="ChaserCollide" type="CollisionPolygon2D" parent="Chaser"]
+polygon = PackedVector2Array(88, 74, 88, 116, 93, 117, 93, 126, 109, 126, 108, 116, 116, 116, 116, 121, 122, 124, 132, 124, 134, 117, 137, 117, 138, 74)
+
+[connection signal="body_entered" from="Runner" to="Runner" method="_on_body_entered"]
+[connection signal="timeout" from="Runner/Timer" to="Runner" method="_on_timer_timeout"]

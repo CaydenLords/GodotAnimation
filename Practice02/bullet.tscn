@@ -1,0 +1,38 @@
+[gd_scene load_steps=8 format=3 uid="uid://bogcsbvi72j1p"]
+
+[ext_resource type="Texture2D" uid="uid://b1qf4uxv7hgxt" path="res://Images/Bullet.png" id="1_5x8xr"]
+[ext_resource type="Texture2D" uid="uid://d04paejlqvbak" path="res://Images/Bullet 270.png" id="1_lchyw"]
+[ext_resource type="Script" path="res://bullet.gd" id="2_206wg"]
+[ext_resource type="Texture2D" uid="uid://ctcbuuis317tt" path="res://Images/Bullet90.png" id="4_crgnk"]
+[ext_resource type="Texture2D" uid="uid://hqtopmf367gp" path="res://Images/Bullet180.png" id="5_vywy4"]
+
+[sub_resource type="Animation" id="Animation_bgnyj"]
+resource_name = "BulletMove"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25, 0.5, 0.75),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("1_5x8xr"), ExtResource("4_crgnk"), ExtResource("5_vywy4"), ExtResource("1_lchyw")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_nkpdc"]
+_data = {
+"BulletMove": SubResource("Animation_bgnyj")
+}
+
+[node name="Bullet" type="Sprite2D"]
+rotation = 4.71239
+texture = ExtResource("4_crgnk")
+script = ExtResource("2_206wg")
+
+[node name="BulletAnimate" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_nkpdc")
+}

@@ -1,0 +1,132 @@
+[gd_scene load_steps=14 format=3 uid="uid://boxls56jo5rl6"]
+
+[ext_resource type="Script" path="res://buttonscreen.gd" id="1_edis7"]
+[ext_resource type="PackedScene" uid="uid://ddtqf4bvqndep" path="res://tank.tscn" id="1_ob116"]
+[ext_resource type="Texture2D" uid="uid://cajvuo8grpu4o" path="res://Images/TankMove3.png" id="3_7n2lc"]
+[ext_resource type="Texture2D" uid="uid://dmi2tonqnsx3d" path="res://Images/Arrow.png" id="4_e17sa"]
+[ext_resource type="Texture2D" uid="uid://baqtff5oi7j3n" path="res://Images/NoArrow.png" id="5_cxr4e"]
+[ext_resource type="Texture2D" uid="uid://bbh4bw0j7vwa0" path="res://Images/TankMove1.png" id="6_icwgd"]
+[ext_resource type="Texture2D" uid="uid://c1k4mqa8x2m2s" path="res://Images/TankMove2.png" id="7_4kq68"]
+[ext_resource type="Texture2D" uid="uid://dnqllr6685e4e" path="res://Images/TankMove4.png" id="8_4478m"]
+
+[sub_resource type="Animation" id="Animation_jto4u"]
+resource_name = "PointRight"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(200, 150), Vector2(250, 150)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("4_e17sa"), ExtResource("5_cxr4e")]
+}
+
+[sub_resource type="Animation" id="Animation_i2eif"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(200, 200)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:texture")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_e17sa")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ovbp0"]
+_data = {
+"PointRight": SubResource("Animation_jto4u"),
+"RESET": SubResource("Animation_i2eif")
+}
+
+[sub_resource type="Animation" id="Animation_qnh0m"]
+resource_name = "TankMove"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [ExtResource("6_icwgd"), ExtResource("7_4kq68"), ExtResource("3_7n2lc"), ExtResource("8_4478m")]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_irrks"]
+_data = {
+"TankMove": SubResource("Animation_qnh0m")
+}
+
+[node name="Node2D" type="Node2D"]
+position = Vector2(0, -2)
+script = ExtResource("1_edis7")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 477.0
+offset_top = 42.0
+offset_right = 639.0
+offset_bottom = 99.0
+text = "Toggle Motion"
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 60.0
+autostart = true
+
+[node name="Arrow" type="Sprite2D" parent="."]
+position = Vector2(200, 200)
+scale = Vector2(2, 2)
+texture = ExtResource("4_e17sa")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(0, 3)
+
+[node name="MoveAnimate" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Arrow")
+libraries = {
+"": SubResource("AnimationLibrary_ovbp0")
+}
+
+[node name="TankSprite" parent="." instance=ExtResource("1_ob116")]
+position = Vector2(200, 200)
+texture = ExtResource("6_icwgd")
+
+[node name="TankAnimate" type="AnimationPlayer" parent="TankSprite"]
+libraries = {
+"": SubResource("AnimationLibrary_irrks")
+}
+
+[connection signal="pressed" from="Button" to="TankSprite" method="_on_button_pressed"]
